@@ -1,0 +1,207 @@
+﻿@model List<PhoneBook>
+<form method="get">
+    <div>
+        <button class="btn btn-secondary" type="submit" value="">All</button>
+        @for (var character = 'A'; character <= 'Z'; character++)
+        {
+            <button class="btn btn-outline-secondary" type="submit" name="character" value="@character">@character</button>
+        }
+    </div>
+</form>
+@if (ViewBag.Character == null)
+{
+    <h1>Contact List</h1>
+}
+else
+{
+    <h1>Contact List : @ViewBag.Character</h1>
+}
+
+
+<a asp-action="Create" class="btn btn-success   ">Add</a>
+@if (Model == null || Model.Count == 0)
+{
+    <div class="container d-flex justify-content-center align-items-center" style="height: 50vh;">
+        <div id="recordNotFound" class="text-center">
+            <img src="~/images/recordnotfound.jpg" class="mb-3" alt="Record Not Found">
+            <h2 class="display-5 noRecords">No records to display ...</h2>
+        </div>
+    </div>
+
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Contact</th>
+                <th>Contact Id</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @foreach (var contact in Model)
+            {
+                <tr>
+                  
+                    <td>
+
+                        <img src="@Url.Content("~/Uploads/"+@contact.FileName)" alt="Category Image" width="50" height="50" />
+
+                    </td>
+                   
+                    <td>@contact.PhoneId</td>
+                    <td>@contact.FirstName</td>
+                    <td>@contact.LastName</td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@contact.PhoneId" class="btn btn-primary">View Details</a>
+
+
+                    </td>
+
+                </tr>
+            }
+
+        </tbody>
+    </table>
+}
+<!-- Pagination -->
+@* @if (Model.Count>0 )
+{ *@
+<div id="pagination">
+    <!-- Page size dropdown -->
+    <label for="pageSize">Page Size:</label>
+    <select id="pageSize" onchange="changePageSize(this)">
+        <option value="2">2</option>
+        <option value="4">4</option>
+        <option value="6">6</option>
+        <!-- Add more options as needed -->
+    </select>
+    <ul class="pagination">
+        @for (int i = 1; i <= ViewBag.TotalPages; i++)
+        {
+            <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                <a class="page-link" href="/PhoneBook/Index?page=@i&pageSize=@ViewBag.PageSize">@i</a>
+            </li>
+        }
+    </ul>
+</div>
+@* } *@
+
+@* <div class="page-content page-container" id="page-content">
+    <div class="padding">
+        <div class="row">
+            <div class="col-sm-6">
+
+                <div class="list list-row block">
+                    <div class="list-item" data-id="19">
+                        <div><a href="#" data-abc="true"><span class="w-48 avatar gd-warning">S</span></a></div>
+                        <div class="flex">
+                            <a href="#" class="item-author text-color" data-abc="true">Sam Kuran</a>
+                            <div class="item-except text-muted text-sm h-1x">For what reason would it be advisable for me to think about business content?</div>
+                        </div>
+                        <div class="no-wrap">
+                            <div class="item-date text-muted text-sm d-none d-md-block">13/12 18</div>
+                        </div>
+                    </div>
+                    <div class="list-item" data-id="7">
+                        <div><a href="#" data-abc="true"><span class="w-48 avatar gd-primary"><img src="https://img.icons8.com/color/48/000000/administrator-male.png" alt="."></span></a></div>
+                        <div class="flex">
+                            <a href="#" class="item-author text-color" data-abc="true">Kinley Adolf</a>
+                            <div class="item-except text-muted text-sm h-1x">For what reason would it be advisable for me to think about business content?</div>
+                        </div>
+                        <div class="no-wrap">
+                            <div class="item-date text-muted text-sm d-none d-md-block">21 July</div>
+                        </div>
+                    </div>
+                    <div class="list-item" data-id="17">
+                        <div><a href="#" data-abc="true"><span class="w-48 avatar gd-warning">H</span></a></div>
+                        <div class="flex">
+                            <a href="#" class="item-author text-color" data-abc="true">Velden Kamut</a>
+                            <div class="item-except text-muted text-sm h-1x">For what reason would it be advisable for me to think about business content?</div>
+                        </div>
+                        <div class="no-wrap">
+                            <div class="item-date text-muted text-sm d-none d-md-block">13/3/19</div>
+                        </div>
+                    </div>
+                    <div class="list-item" data-id="16">
+                        <div><a href="#" data-abc="true"><span class="w-48 avatar gd-info">F</span></a></div>
+                        <div class="flex">
+                            <a href="#" class="item-author text-color" data-abc="true">Stuart Kim</a>
+                            <div class="item-except text-muted text-sm h-1x">For what reason would it be advisable for me to think about business content?</div>
+                        </div>
+                        <div class="no-wrap">
+                            <div class="item-date text-muted text-sm d-none d-md-block">03/1/19</div>
+                        </div>
+                    </div>
+                    <div class="list-item" data-id="4">
+                        <div><a href="#" data-abc="true"><span class="w-48 avatar gd-success"><img src="https://img.icons8.com/color/48/000000/guest-male.png" alt="."></span></a></div>
+                        <div class="flex">
+                            <a href="#" class="item-author text-color" data-abc="true">Simply Fry</a>
+                            <div class="item-except text-muted text-sm h-1x">For what reason would it be advisable for me to think about business content?</div>
+                        </div>
+                        <div class="no-wrap">
+                            <div class="item-date text-muted text-sm d-none d-md-block">2 hours ago</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+ *@
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+
+@if (Model == null || !Model.Any())
+{
+    <script>
+        $(document).ready(function () {
+            NotFoundImage();
+        });
+
+        function NotFoundImage() {
+          
+            $('#recordNotFound').show();
+            $('#pagination').hide();
+        }
+
+                
+
+
+    </script>
+
+}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var currentPageSize = @ViewBag.PageSize; // Get current page size from ViewBag
+        var pageSizeDropdown = document.getElementById("pageSize");
+        // Set selected option based on current page size
+        for (var i = 0; i < pageSizeDropdown.options.length; i++) {
+            if (pageSizeDropdown.options[i].value === currentPageSize.toString()) {
+                pageSizeDropdown.selectedIndex = i;
+                break;
+            }
+        }
+    });
+
+    function changePageSize(select) {
+        var pageSize = select.value;
+        var currentPage = @ViewBag.CurrentPage;
+        var character = "@ViewBag.Character";
+        window.location.href = "/PhoneBook/Index?page=" + currentPage + "&pageSize=" + pageSize+"&character="+character;
+    }
+
+
+      
+   
+
+</script>
+
+@* css file*@
+<link href="~/css/phonebookindex.css" rel="stylesheet" />

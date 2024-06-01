@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - PhoneBookApplication</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/PhoneBookApplication.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+      @Html.Partial("_MenuBarPartialView")
+    </header>
+    <div class="container">
+
+        <main role="main" class="pb-3">
+            @{
+                var successMsg = TempData["SuccessMessage"]?.ToString();
+                var errorMsg = TempData["ErrorMessage"]?.ToString();
+            }
+            @if (!string.IsNullOrWhiteSpace(successMsg))
+            {
+                <div id="autoCloseAlert" class="alert alert-success alertalert-dismissible fade show">
+                    <b>Success : @successMsg</b>
+                    <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+            @if (!string.IsNullOrWhiteSpace(errorMsg))
+            {
+                <div id="autoCloseAlert" class="alert alert-danger alertalert-dismissible fade show">
+                    <b>Error : @errorMsg</b>
+                    <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            }
+            @RenderBody()
+        </main>
+    </div>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2024 - PhoneBookApplication - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script>
+        setTimeout(function () {
+            document.getElementById('autoCloseAlert').classList.add('fade');
+            document.getElementById('autoCloseAlert').classList.add('show');
+            document.getElementById('autoCloseAlert').style.display = 'none';
+        }, 5000)
+    </script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

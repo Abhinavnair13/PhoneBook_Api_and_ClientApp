@@ -1,0 +1,17 @@
+﻿@model PhoneBook
+<h2>Contact Details</h2>
+<div>
+  
+    <h4>First name : @Model.FirstName</h4>
+    <h4>Last name : @Model.LastName</h4>
+    <h4>Comapany name : @Model.CompanyName</h4>
+    <h4>Contact number : @Model.ContactNumber</h4>
+    <h4>Email : @Model.Email</h4>
+</div>
+<div>
+    <button type="button" class="btn btn-primary" onclick="window.location.href='@Url.Action("Index", "PhoneBook")'">Go Back</button>
+
+    
+    <a asp-action="Edit" asp-route-id="@Model.PhoneId" class="btn btn-warning">Modify</a>
+    <a asp-action="Delete" asp-route-id="@Model.PhoneId" class = "btn btn-danger">Delete</a>
+</div>
